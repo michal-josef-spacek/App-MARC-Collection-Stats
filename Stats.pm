@@ -44,7 +44,7 @@ sub run {
 		$self->_usage;
 		return 1;
 	}
-	if (! defined $self->{'_opts'}->{'l'}) {
+	if (! $self->{'_opts'}->{'l'}) {
 		if (@ARGV < 1) {
 			$self->_usage;
 			return 1;
