@@ -28,7 +28,7 @@ marc-collection-stats - Script to count records in MARC file.
 
 =head1 SYNOPSIS
 
- marc-collection-stats [-h] [--version] marc_xml_file
+ marc-collection-stats [-h] [-l] [-p] [-v] [--version] marc_xml_file
 
 =head1 DESCRIPTION
 
@@ -51,6 +51,10 @@ Print list of plugins.
 =item * C<-p>
 
 Pretty print JSON output.
+
+=item * C<-v>
+
+Verbose mode.
 
 =item * C<--version>
 

@@ -2,7 +2,7 @@ NAME
     marc-collection-stats - Script to count records in MARC file.
 
 SYNOPSIS
-     marc-collection-stats [-h] [--version] marc_xml_file
+     marc-collection-stats [-h] [-l] [-p] [-v] [--version] marc_xml_file
 
 DESCRIPTION
     Tool to create statistics dataset from MARC record collections.
@@ -21,6 +21,10 @@ ARGUMENTS
     *       "-p"
 
             Pretty print JSON output.
+
+    *       "-v"
+
+            Verbose mode.
 
     *       "--version"
 
