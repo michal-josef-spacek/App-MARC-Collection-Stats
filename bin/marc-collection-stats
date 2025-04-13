@@ -44,6 +44,10 @@ It supports MARC XML files now.
 
 Print help.
 
+=item * C<-l>
+
+Print list of plugins.
+
 =item * C<-p>
 
 Pretty print JSON output.
