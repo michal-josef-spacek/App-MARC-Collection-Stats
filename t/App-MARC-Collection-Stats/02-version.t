@@ -6,4 +6,4 @@ use Test::More 'tests' => 2;
 use Test::NoWarnings;
 
 # Test.
-is($App::MARC::Collection::Stats::VERSION, 0.05, 'Version.');
+is($App::MARC::Collection::Stats::VERSION, 0.01, 'Version.');
