@@ -20,6 +20,7 @@ perl_version 5.006;
 readme_from 'bin/marc-collection-stats';
 recursive_author_tests('xt');
 requires 'Class::Utils' => 0;
+requires 'Cpanel::JSON::XS' => 0;
 requires 'English' => 0;
 requires 'Getopt::Std' => 0;
 requires 'MARC::Collection::Stats' => 0;

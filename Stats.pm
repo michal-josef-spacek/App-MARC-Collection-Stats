@@ -4,8 +4,10 @@ use strict;
 use warnings;
 
 use Class::Utils qw(set_params);
+use Cpanel::JSON::XS;
 use English;
 use Getopt::Std;
+use IO::Barf qw(barf);
 use MARC::Collection::Stats;
 use MARC::File::XML (BinaryEncoding => 'utf8', RecordFormat => 'MARC21');
 use Unicode::UTF8 qw(encode_utf8);
@@ -34,8 +36,9 @@ sub run {
 	$self->{'_opts'} = {
 		'h' => 0,
 		'l' => 0,
+		'p' => 0,
 	};
-	if (! getopts('hl', $self->{'_opts'})
+	if (! getopts('hlp', $self->{'_opts'})
 		|| $self->{'_opts'}->{'h'}) {
 
 		$self->_usage;
@@ -122,7 +125,14 @@ sub _process_stats {
 	}
 
 	# JSON output.
-	# TODO
+	my $j = Cpanel::JSON::XS->new;
+	if ($self->{'_opts'}->{'p'}) {
+		$j = $j->pretty;
+	}
+	my $json = $j->encode($output_struct_hr);
+
+	# Save to file.
+	barf('output.json', $json);
 
 	return 0;
 }
@@ -130,9 +140,10 @@ sub _process_stats {
 sub _usage {
 	my $self = shift;
 
-	print STDERR "Usage: $0 [-h] [-l] [--version] marc_xml_file\n";
+	print STDERR "Usage: $0 [-h] [-l] [-p] [--version] marc_xml_file\n";
 	print STDERR "\t-h\t\tPrint help.\n";
 	print STDERR "\t-l\t\tList of plugins.\n";
+	print STDERR "\t-p\t\tPretty print JSON output.\n";
 	print STDERR "\t--version\tPrint version.\n";
 	print STDERR "\tmarc_xml_file\tMARC XML file.\n";
 

@@ -14,6 +14,10 @@ ARGUMENTS
 
             Print help.
 
+    *       "-p"
+
+            Pretty print JSON output.
+
     *       "--version"
 
             Print version of script.
