@@ -33,7 +33,7 @@ sub run {
 	# Process arguments.
 	$self->{'_opts'} = {
 		'h' => 0,
-		'l' => undef,
+		'l' => 0,
 	};
 	if (! getopts('hl', $self->{'_opts'})
 		|| $self->{'_opts'}->{'h'}) {
