@@ -59,6 +59,17 @@ sub run {
 	return $exit_code;
 }
 
+sub _init_plugins {
+	my $self = shift;
+
+	$self->{'_plugins'} = [];
+	foreach my $plugin (MARC::Collection::Stats::plugins) {
+		push @{$self->{'_plugins'}}, $plugin->new;
+	}
+
+	return;
+}
+
 sub _list_plugins {
 	my $self = shift;
 
@@ -78,6 +89,7 @@ sub _process_stats {
 	my $ret_hr = {};
 	my $num = 0;
 	my $previous_record;
+	$self->_init_plugins;
 	while (1) {
 		$num++;
 		my $record = eval {
@@ -99,7 +111,14 @@ sub _process_stats {
 		$previous_record = $record;
 
 		# Collect statistics.
-		# TODO
+		foreach my $plugin_obj (@{$self->{'_plugins'}}) {
+			$plugin_obj->process($record);
+		}
+	}
+
+	my $output_struct_hr = {};
+	foreach my $plugin_obj (@{$self->{'_plugins'}}) {
+		$output_struct_hr->{$plugin_obj->name} = $plugin_obj->struct;
 	}
 
 	# JSON output.
