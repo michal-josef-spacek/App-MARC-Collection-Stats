@@ -37,8 +37,9 @@ sub run {
 		'h' => 0,
 		'l' => 0,
 		'p' => 0,
+		'v' => 0,
 	};
-	if (! getopts('hlp', $self->{'_opts'})
+	if (! getopts('hlpv', $self->{'_opts'})
 		|| $self->{'_opts'}->{'h'}) {
 
 		$self->_usage;
@@ -67,7 +68,9 @@ sub _init_plugins {
 
 	$self->{'_plugins'} = [];
 	foreach my $plugin (MARC::Collection::Stats::plugins) {
-		push @{$self->{'_plugins'}}, $plugin->new;
+		push @{$self->{'_plugins'}}, $plugin->new(
+			'verbose' => $self->{'_opts'}->{'v'},
+		);
 	}
 
 	return;
@@ -144,6 +147,7 @@ sub _usage {
 	print STDERR "\t-h\t\tPrint help.\n";
 	print STDERR "\t-l\t\tList of plugins.\n";
 	print STDERR "\t-p\t\tPretty print JSON output.\n";
+	print STDERR "\t-v\t\tVerbose mode.\n";
 	print STDERR "\t--version\tPrint version.\n";
 	print STDERR "\tmarc_xml_file\tMARC XML file.\n";
 
