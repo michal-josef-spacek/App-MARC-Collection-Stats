@@ -1,0 +1,43 @@
+NAME
+    marc-collection-stats - Script to count records in MARC file.
+
+SYNOPSIS
+     marc-collection-stats [-h] [--version] marc_xml_file
+
+DESCRIPTION
+    Tool to create statistics dataset from MARC record collections.
+
+    It supports MARC XML files now.
+
+ARGUMENTS
+    *       "-h"
+
+            Print help.
+
+    *       "--version"
+
+            Print version of script.
+
+    *       "marc_xml_file"
+
+            MARC XML file name.
+
+EXAMPLE
+     marc-collection-stats __MARC.xml__
+
+REPOSITORY
+    <https://github.com/michal-josef-spacek/App-MARC-Collection-Stats>
+
+AUTHOR
+    Michal Josef Špaček <mailto:skim@cpan.org>
+
+    <http://skim.cz>
+
+LICENSE AND COPYRIGHT
+    © 2025 Michal Josef Špaček
+
+    BSD 2-Clause License
+
+VERSION
+    0.01
+
