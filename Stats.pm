@@ -69,10 +69,12 @@ sub _init_plugins {
 
 	$self->{'_plugins'} = [];
 	foreach my $plugin (MARC::Collection::Stats::plugins) {
-		push @{$self->{'_plugins'}}, $plugin->new(
+		my $plugin_obj = $plugin->new(
 			'debug' => $self->{'_opts'}->{'d'},
 			'verbose' => $self->{'_opts'}->{'v'},
 		);
+		$plugin_obj->init;
+		push @{$self->{'_plugins'}}, $plugin_obj;
 	}
 
 	return;
