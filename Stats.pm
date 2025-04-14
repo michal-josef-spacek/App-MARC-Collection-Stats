@@ -121,6 +121,7 @@ sub _process_stats {
 			$plugin_obj->process($record);
 		}
 	}
+	$self->_postprocess_plugins;
 
 	my $output_struct_hr = {};
 	foreach my $plugin_obj (@{$self->{'_plugins'}}) {
@@ -138,6 +139,16 @@ sub _process_stats {
 	barf('output.json', $json);
 
 	return 0;
+}
+
+sub _postprocess_plugins {
+	my $self = shift;
+
+	foreach my $plugin_obj (@{$self->{'_plugins'}}) {
+		$plugin_obj->postprocess;
+	}
+
+	return;
 }
 
 sub _usage {
