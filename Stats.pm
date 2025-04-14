@@ -34,12 +34,13 @@ sub run {
 
 	# Process arguments.
 	$self->{'_opts'} = {
+		'd' => 0,
 		'h' => 0,
 		'l' => 0,
 		'p' => 0,
 		'v' => 0,
 	};
-	if (! getopts('hlpv', $self->{'_opts'})
+	if (! getopts('dhlpv', $self->{'_opts'})
 		|| $self->{'_opts'}->{'h'}) {
 
 		$self->_usage;
@@ -69,6 +70,7 @@ sub _init_plugins {
 	$self->{'_plugins'} = [];
 	foreach my $plugin (MARC::Collection::Stats::plugins) {
 		push @{$self->{'_plugins'}}, $plugin->new(
+			'debug' => $self->{'_opts'}->{'d'},
 			'verbose' => $self->{'_opts'}->{'v'},
 		);
 	}
@@ -154,7 +156,8 @@ sub _postprocess_plugins {
 sub _usage {
 	my $self = shift;
 
-	print STDERR "Usage: $0 [-h] [-l] [-p] [--version] marc_xml_file\n";
+	print STDERR "Usage: $0 [-d] [-h] [-l] [-p] [--version] marc_xml_file\n";
+	print STDERR "\t-d\t\tDebug mode.\n";
 	print STDERR "\t-h\t\tPrint help.\n";
 	print STDERR "\t-l\t\tList of plugins.\n";
 	print STDERR "\t-p\t\tPretty print JSON output.\n";
