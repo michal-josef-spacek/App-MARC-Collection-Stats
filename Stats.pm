@@ -14,6 +14,8 @@ use Unicode::UTF8 qw(encode_utf8);
 
 our $VERSION = 0.01;
 
+$OUTPUT_AUTOFLUSH = 1;
+
 # Constructor.
 sub new {
 	my ($class, @params) = @_;
