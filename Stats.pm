@@ -51,7 +51,7 @@ sub run {
 			$self->_usage;
 			return 1;
 		}
-		$self->{'_marc_xml_file'} = shift @ARGV;
+		$self->{'_marc_xml_files'} = [@ARGV];
 	}
 
 	my $exit_code;
@@ -95,34 +95,36 @@ sub _list_plugins {
 sub _process_stats {
 	my $self = shift;
 
-	my $marc_file = MARC::File::XML->in($self->{'_marc_xml_file'});
-	my $ret_hr = {};
-	my $num = 0;
-	my $previous_record;
 	$self->_init_plugins;
-	while (1) {
-		$num++;
-		my $record = eval {
-			$marc_file->next;
-		};
-		if ($EVAL_ERROR) {
-			print STDERR "Cannot process '$num' record. ".
-				(
-					defined $previous_record
-					? "Previous record is ".encode_utf8($previous_record->title)."\n"
-					: ''
-				);
-			print STDERR "Error: $EVAL_ERROR\n";
-			next;
-		}
-		if (! defined $record) {
-			last;
-		}
-		$previous_record = $record;
+	my $ret_hr = {};
+	foreach my $marc_xml_file (@{$self->{'_marc_xml_files'}}) {
+		my $marc_file = MARC::File::XML->in($marc_xml_file);
+		my $num = 0;
+		my $previous_record;
+		while (1) {
+			$num++;
+			my $record = eval {
+				$marc_file->next;
+			};
+			if ($EVAL_ERROR) {
+				print STDERR "Cannot process file '$marc_xml_file', record '$num'.".
+					(
+						defined $previous_record
+						? "Previous record is ".encode_utf8($previous_record->title)."\n"
+						: ''
+					);
+				print STDERR "Error: $EVAL_ERROR\n";
+				next;
+			}
+			if (! defined $record) {
+				last;
+			}
+			$previous_record = $record;
 
-		# Collect statistics.
-		foreach my $plugin_obj (@{$self->{'_plugins'}}) {
-			$plugin_obj->process($record);
+			# Collect statistics.
+			foreach my $plugin_obj (@{$self->{'_plugins'}}) {
+				$plugin_obj->process($record);
+			}
 		}
 	}
 	$self->_postprocess_plugins;
